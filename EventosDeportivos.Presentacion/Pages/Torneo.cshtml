@@ -1,0 +1,275 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.TorneoModel
+@{
+    ViewData["Title"] = "Gestion de Torneos";
+}
+
+@* dotnet new page -n CanchasEspacio -na EventosDeportivos.Presentacion.Pages -o ./Pages/
+*@
+
+
+<section id="Principal">
+    <div class="container">
+        <h2>Gestion de Torneos</h2>
+        
+        <span class="text-danger">@ViewData["Mensaje"]</span>
+        <div class="boton-crear">
+            <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+                href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+        </div>
+        <div>
+            <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="display: none;">Id</th>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Municipio Anfitrión</th>
+                        <th style="display: none;">MunicipioId</th>
+                        <th style="display: none;">Fecha Inicio</th>
+                        <th style="display: none;">Fecha Fin</th>
+                        <th class="all acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        @* Se declara una variable para mezclar la informacion *@
+                        var i = 0;
+                        @foreach (var torneo in Model.torneos)
+                        {
+                            <tr>
+                                <td style="display: none;" id="id-torneo">@torneo.Id</td>
+                                <td id="nombre-torneo">@torneo.Nombre</td>
+                                <td id="categoria-torneo">@torneo.Categoria</td>
+                                <td id="tipo-torneo">@torneo.Tipo</td>
+                                <td>@Model.nombreMunicipios[i]</td>
+                                <td style="display: none;" id="municipioId-torneo">@torneo.MunicipioId</td>
+                                <td style="display: none;" id="fechaInicio-torneo">@torneo.FechaInicio</td>
+                                <td style="display: none;" id="fechaFin-torneo">@torneo.FechaFin</td>
+                                <td class="acciones">
+                                    <a class="btn btn-danger btn-sm" asp-route-id="@torneo.Id" asp-page-handler="Eliminar"><i
+                                        class="fas fa-backspace"></i></a>
+                                    <a class="btn btn-primary btn-sm editar" data-id="@torneo.Id" role="button"><i
+                                        class="fas fa-edit"></i></a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana">
+            <div class="modal-content contenido-torneo">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Torneo</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="Torneo.Nombre" class="form-label">
+                                    Nombre:
+                                </label>
+                                <input asp-for="Torneo.Nombre" type="text" class="form-control"
+                                    placeholder="Ingrese el nombre del torneo" name="Torneo.Nombre" />
+                                <span asp-validation-for="Torneo.Nombre" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.Categoria" class="form-label">
+                                    Categoria:
+                                </label>
+                                <select asp-for="Torneo.Categoria" name="Torneo.Categoria" class="form-control"
+                                    name="Torneo.Categoria">
+                                    <!-- Opciones de la lista -->
+                                    <option value="">
+                                        Seleccione la categoria...
+                                    </option>
+                                    <option value="Nacional">Nacional</option>
+                                    <option value="Regional">Regional</option>
+                                    <option value="Comunal">Comunal</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.Tipo" class="form-label">
+                                    Tipo:
+                                </label>
+                                <select asp-for="Torneo.Tipo" class="form-control">
+                                    <option value="">
+                                        Seleccione el tipo...
+                                    </option>
+                                    <option value="Futbol">Fútbol</option>
+                                    <option value="Baloncesto">Baloncesto</option>
+                                    <option value="Patinaje">Patinaje </option>
+                                    <option value="Natacion">Natación</option>
+                                    <option value="Atletismo">Atletismo </option>
+                                </select>
+                                <span asp-validation-for="Torneo.Tipo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.FechaInicio" class="form-label">
+                                    Inicio:
+                                </label>
+                                <input asp-for="Torneo.FechaInicio" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.FechaFin" class="form-label">
+                                    Fin:
+                                </label>
+                                <input asp-for="Torneo.FechaFin" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="Torneo.MunicipioId" class="form-label">
+                                    Municipio:
+                                </label>
+                                <select asp-for="Torneo.MunicipioId" name="Torneo.MunicipioId" class="form-control">
+                                    @* Se realiza despliegue de la listas de municipios en la base de datos *@
+                                    <option value="">
+                                        Seleccione el municipio...
+                                    </option>
+                                    @{
+                                        foreach (var municipio in Model.municipios)
+                                        {
+                                            <option value=@municipio.Id>@municipio.Nombre</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana">
+            <div class="modal-content contenido-torneo">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Torneo</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <input asp-for="Torneo.Id" type="hidden" id="txtId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="Torneo.Nombre" class="form-label">
+                                    Nombre:
+                                </label>
+                                <input asp-for="Torneo.Nombre" type="text" class="form-control" id="txtNombre"
+                                    name="Torneo.Nombre" />
+                                <span asp-validation-for="Torneo.Nombre" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.Categoria" class="form-label">
+                                    Categoria:
+                                </label>
+                                <select asp-for="Torneo.Categoria" name="Torneo.Categoria" class="form-control"
+                                    name="Torneo.Categoria" id="txtCategoria">
+                                    <!-- Opciones de la lista -->
+                                    <option value="">
+                                        Seleccione la categoria...
+                                    </option>
+                                    <option value="Nacional">Nacional</option>
+                                    <option value="Regional">Regional</option>
+                                    <option value="Comunal">Comunal</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.Tipo" class="form-label">
+                                    Tipo:
+                                </label>
+                                <select asp-for="Torneo.Tipo" class="form-control" id="txtTipo">
+                                    <option value="">
+                                        Seleccione el tipo...
+                                    </option>
+                                    <option value="Futbol">Fútbol</option>
+                                    <option value="Baloncesto">Baloncesto</option>
+                                    <option value="Patinaje">Patinaje </option>
+                                    <option value="Natacion">Natación</option>
+                                    <option value="Atletismo">Atletismo </option>
+                                </select>
+                                <span asp-validation-for="Torneo.Tipo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.FechaInicio" class="form-label">
+                                    Inicio:
+                                </label>
+                                <input asp-for="Torneo.FechaInicio" id="txtFechaInicio" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Torneo.FechaFin" class="form-label">
+                                    Fin:
+                                </label>
+                                <input asp-for="Torneo.FechaFin" id="txtFechaFin" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="Torneo.MunicipioId" class="form-label">
+                                    Municipio:
+                                </label>
+                                <select asp-for="Torneo.MunicipioId" name="Torneo.MunicipioId" class="form-control"
+                                    id="txtMunicipioId">
+                                    @* Se realiza despliegue de la listas de municipios en la base de datos *@
+                                    <option value="">
+                                        Seleccione el municipio...
+                                    </option>
+                                    @{
+                                        foreach (var municipio in Model.municipios)
+                                        {
+                                            <option value=@municipio.Id>@municipio.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script type="text/javascript" src="~/js/torneo.js"></script>

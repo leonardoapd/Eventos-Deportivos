@@ -1,0 +1,209 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.EquipoModel
+@{
+  ViewData["Title"] = "Gestion de Equipos";
+}
+
+<section id="tabla-principal">
+  <div class="container">
+    <h2>Gestion de Equipos</h2>
+
+    <span class="text-danger">@ViewData["Mensaje"]</span>
+    <div class="boton-crear">
+      <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+        href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+    </div>
+
+    <div>
+      <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%">
+        <thead>
+          <tr>
+            <th style="display: none">Id</th>
+            <th>Nombre</th>
+            <th>Cantidad deportistas</th>
+            <th>Deporte</th>
+            <th>Patrocinador</th>
+            <th style="display: none;">PatrocinadorId</th>
+            <th class="all acciones">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @* Se realiza un recorrido en el objeto equipo del Model.Equipo para con ayuda del foreach mostrarlo
+            en una tabla html *@
+          @{
+            var i = 0;
+            @foreach (var equipo in Model.equipos)
+            {
+              <tr>
+                <td style="display: none;" id="id-equipo">@equipo.Id</td>
+                <td id="nombre-equipo">@equipo.Nombre</td>
+                <td id="cantidadDeportistas-equipo">@equipo.CantidadDeportistas</td>
+                <td id="deporte-equipo">@equipo.Deporte</td>
+                <td>@Model.nombrePatrocinadores[i]</td>
+                <td style="display: none;" id="patrocinadorId-equipo">@equipo.PatrocinadorId</td>
+                <td class="acciones">
+                  <a class="btn btn-danger btn-sm table-btn" title="Borrar" asp-route-id="@equipo.Id"
+                  asp-page-handler="Eliminar"><i class="fas fa-backspace"></i></a>
+
+                  <a class="btn-icono btn btn-primary btn-sm table-btn editar" role="button" data-id="@equipo.Id" href="#"
+                  title="Editar">
+                    <i class="fas icono fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+              i++;
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+@* asp-route-id="@equipo.Id" *@
+<section>
+  <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ventana-equipo">
+      <div class="modal-content contenido-equipo">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Equipo</h5>
+          <div class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa fa-window-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+
+
+            <div class="row">
+              <label asp-for="Equipo.Nombre" class="form-label">
+                Nombre:
+              </label>
+              <input asp-for="Equipo.Nombre" type="text" class="form-control" placeholder="Ingrese el nombre del equipo"
+                name="Equipo.Nombre" />
+              <span asp-validation-for="Equipo.Nombre" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.CantidadDeportistas" class="form-label">
+                Cantidad de Deportistas:
+              </label>
+              <input asp-for="Equipo.CantidadDeportistas" type="text" class="form-control"
+                placeholder="Ingrese la cantidad de deportistas" name="Equipo.CantidadDeportistas" />
+              <span asp-validation-for="Equipo.CantidadDeportistas" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.Deporte" class="form-label">
+                Deporte:
+              </label>
+              <select asp-for="Equipo.Deporte" class="form-control">
+                <option value="">Seleccione el deporte...</option>
+                <option value="Futbol">Fútbol</option>
+                <option value="Baloncesto">Baloncesto</option>
+                <option value="Patinaje">Patinaje </option>
+                <option value="Natacion">Natación</option>
+                <option value="Atletismo">Atletismo </option>
+              </select>
+              <span asp-validation-for="Equipo.Deporte" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.PatrocinadorId" class="form-label">
+                Patrocinador:
+              </label>
+              <select asp-for="Equipo.PatrocinadorId" name="Equipo.PatrocinadorId" class="form-control">
+                @* Se realiza despliegue de la listas de patrocinadores en la base de datos *@
+                <option value="">Seleccione el patrocinador...</option>
+                @{
+                  foreach (var patrocinador in Model.patrocinadores)
+                  {
+                    <option value=@patrocinador.Id>@patrocinador.Nombre</option>
+                  }
+                }
+              </select>
+            </div>
+
+            <div id="b-crear">
+              <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ventana-equipo">
+      <div class="modal-content contenido-equipo">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar Equipo</h5>
+          <div class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa fa-window-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+
+            <input asp-for="Equipo.Id" type="hidden" id="txtId" />
+            <div class="row">
+              <label asp-for="Equipo.Nombre" class="form-label">
+                Nombre:
+              </label>
+              <input asp-for="Equipo.Nombre" type="text" class="form-control" name="Equipo.Nombre" id="txtNombre" />
+              <span asp-validation-for="Equipo.Nombre" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.CantidadDeportistas" class="form-label">
+                Cantidad de Deportistas:
+              </label>
+              <input asp-for="Equipo.CantidadDeportistas" type="text" class="form-control"
+                name="Equipo.CantidadDeportistas" id="txtCantidad" />
+              <span asp-validation-for="Equipo.CantidadDeportistas" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.Deporte" class="form-label">
+                Deporte:
+              </label>
+              <select asp-for="Equipo.Deporte" class="form-control" id="txtDeporte">
+                <option value="">Seleccione el deporte...</option>
+                <option value="Futbol">Fútbol</option>
+                <option value="Baloncesto">Baloncesto</option>
+                <option value="Patinaje">Patinaje </option>
+                <option value="Natacion">Natación</option>
+                <option value="Atletismo">Atletismo </option>
+              </select>
+              <span asp-validation-for="Equipo.Deporte" class="text-danger"> </span>
+            </div>
+            <div class="row">
+              <label asp-for="Equipo.PatrocinadorId" class="form-label">
+                Patrocinador:
+              </label>
+              <select asp-for="Equipo.PatrocinadorId" name="Equipo.PatrocinadorId" class="form-control"
+                id="txtPatrocinadorId">
+                @* Se realiza despliegue de la listas de patrocinadores en la base de datos *@
+                <option value="">Seleccione el patrocinador...</option>
+                @{
+                  foreach (var patrocinador in Model.patrocinadores)
+                  {
+                    <option value=@patrocinador.Id>@patrocinador.Nombre</option>
+                  }
+                }
+              </select>
+            </div>
+
+            <div id="b-crear">
+              <button type="submit" class="btn btn-primary">Modificar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script type="text/javascript" src="~/js/equipo.js"></script>

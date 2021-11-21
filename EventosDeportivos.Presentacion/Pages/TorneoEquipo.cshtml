@@ -1,0 +1,148 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.TorneoEquipoModel
+@{
+    ViewData["Title"] = "Inscripcion de Equipos";
+}
+
+<section id="tabla-principal">
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
+
+        <span class="text-danger">@ViewData["Mensaje"]</span>
+        <div class="boton-crear">
+            <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+                href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+        </div>
+
+        <div>
+            <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th style="display: none;">TorneoId</th>
+                        <th style="display: none;">EquipoId</th>
+                        <th>Torneo</th>
+                        <th>Equipo</th>
+                        <th class="all acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Se realiza un recorrido en el objeto municipio del Model.Municipio para con ayuda del
+                        foreach mostrarlo
+                        en una tabla html *@
+                    @{
+                        var i = 0;
+                        @foreach (var torneoequipo in Model.torneoEquipos)
+                        {
+                            <tr>
+                                <td style="display: none;" id="id-torneo">@torneoequipo.TorneoId</td>
+                                <td style="display: none;" id="id-equipo">@torneoequipo.EquipoId</td>
+                                <td>@Model.nombreTorneos[i]</td>
+                                <td>@Model.nombreEquipos[i]</td>
+                                <td class="acciones">
+                                    <a class="btn btn-danger btn-sm table-btn eliminar" title="Borrar"><i
+                                        class="fas fa-backspace"></i></a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana-equipo">
+            <div class="modal-content contenido-equipo">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Realizar Inscripcion</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="TorneoEquipo.TorneoId" class="form-label">
+                                    Torneo:
+                                </label>
+                                <select asp-for="TorneoEquipo.TorneoId" name="TorneoEquipo.TorneoId"
+                                    class="form-control">
+                                    <option value="">Seleccione el torneo...</option>
+                                    @{
+                                        foreach (var torneo in Model.torneos)
+                                        {
+                                            <option value=@torneo.Id>@torneo.Nombre</option>
+                                        }
+
+                                    }
+                                </select>
+                                <span asp-validation-for="TorneoEquipo.TorneoId" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="TorneoEquipo.EquipoId">
+                                    Equipo:
+                                </label>
+                                <select asp-for="TorneoEquipo.EquipoId" class="form-control">
+                                    <option value="">Seleccione el equipo...</option>
+                                    @{
+                                        foreach (var equipo in Model.equipos)
+                                        {
+                                            <option value=@equipo.Id>@equipo.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="TorneoEquipo.EquipoId" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Inscribir</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-eliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana">
+            <div class="modal-content contenido-municipio">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Inscripcion</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input asp-for="TorneoEquipo.TorneoId" type="hidden" id="txtIdTorneo" />
+                        <input asp-for="TorneoEquipo.EquipoId" type="hidden" id="txtIdEquipo" />
+                        <p class="text-danger">¿Esta seguro que desea eliminar la inscripción del equipo?</p>
+                        <div id="b-crear">
+                            <a id="b-eliminar" class="btn btn-primary">Eliminar</a>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script type="text/javascript" src="~/js/torneoequipo.js"></script>

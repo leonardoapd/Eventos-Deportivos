@@ -1,0 +1,9 @@
+.contenido-arbitro {
+    width: 100%;
+    border-radius: 15px;
+  }
+  
+  .ventana-arbitro {
+      max-width: 750px !important;
+  }
+  

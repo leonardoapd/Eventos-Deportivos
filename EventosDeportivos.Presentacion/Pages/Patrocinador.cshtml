@@ -1,0 +1,203 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.PatrocinadorModel
+@{
+    ViewData["Title"] = "Gestion de Patrocinadores";
+}
+
+<section id="tabla principal">
+        <div class="container">
+            <h2>@ViewData["Title"]</h2>
+
+            <span class="text-danger">@ViewData["Mensaje"]</span>
+            <div class="boton-crear">
+                <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+                    href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+            </div>
+
+            <div>
+                <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="display: none;">Id</th>
+                            <th>Identificacion</th>
+                            <th>Nombre</th>
+                            <th>TipoPersona</th>
+                            <th>Direccion</th>
+                            <th class="all acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @* Se realiza un recorrido en el objeto patrocinador del Model.Deportista para con ayuda del
+                            foreach
+                            mostrarlo
+                            en una tabla html *@
+                        @{
+                            @foreach (var patrocinador in Model.patrocinadores)
+                            {
+                                <tr>
+                                    <td style="display: none;" id="id-patrocinador">@patrocinador.Id</td>
+                                    <td id="identificacion-patrocinador">@patrocinador.Identificacion</td>
+                                    <td id="nombre-patrocinador">@patrocinador.Nombre</td>
+                                    <td id="tipoPersona-patrocinador">@patrocinador.TipoPersona</td>
+                                    <td id="direccion-patrocinador">@patrocinador.Direccion</td>
+                                    <td class="acciones">
+                                        <a class="btn btn-danger btn-sm table-btn" title="Borrar"
+                                        asp-route-id="@patrocinador.Id" asp-page-handler="Eliminar"><i
+                                            class="fas fa-backspace"></i></a>
+
+                                        <a class="btn btn-primary btn-sm table-btn editar" role="button"
+                                        data-id="@patrocinador.Id" href="#" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana-patrocinador">
+            <div class="modal-content contenido-patrocinador">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Patrocinador</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <label asp-for="Patrocinador.Nombre" class="form-label">
+                                    Nombre:
+                                </label>
+                                <input asp-for="Patrocinador.Nombre" type="text" class="form-control"
+                                    placeholder="Ingrese el nombre" name="Patrocinador.Nombre" />
+                                <span asp-validation-for="Patrocinador.Nombre" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label asp-for="Patrocinador.Identificacion" class="form-label">
+                                    Documento:
+                                </label>
+                                <input asp-for="Patrocinador.Identificacion" type="text" class="form-control"
+                                    placeholder="Ingrese el documento" name="Patrocinador.Identificacion" />
+                                <span asp-validation-for="Patrocinador.Identificacion" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-7">
+                                <label asp-for="Patrocinador.TipoPersona" class="form-label">
+                                    Tipo de Persona:
+                                </label>
+                                <select asp-for="Patrocinador.TipoPersona" class="form-control">
+                                    <option value="">Seleccione el tipo de persona...</option>
+                                    <option value="Natural">Natural</option>
+                                    <option value="Juridica">Juridica</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md">
+
+                                <label asp-for="Patrocinador.Direccion" class="form-label">
+                                    Direccion:
+                                </label>
+                                <input asp-for="Patrocinador.Direccion" class="form-control"
+                                    placeholder="Ingrese la direccion" name="Patrocinador.Direccion" />
+                                <span asp-validation-for="Patrocinador.Direccion" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana-patrocinador">
+            <div class="modal-content contenido-patrocinador">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Patrocinador</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                        <input asp-for="Patrocinador.Id" type="hidden" id="txtId" />
+                        <div class="row">
+                            <div class="col-md">
+                                <label asp-for="Patrocinador.Nombre" class="form-label">
+                                    Nombre:
+                                </label>
+                                <input asp-for="Patrocinador.Nombre" type="text" class="form-control"
+                                    name="Patrocinador.Nombre" id="txtNombre" />
+                                <span asp-validation-for="Patrocinador.Nombre" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label asp-for="Patrocinador.Identificacion" class="form-label">
+                                    Documento:
+                                </label>
+                                <input asp-for="Patrocinador.Identificacion" type="text" class="form-control"
+                                    name="Patrocinador.Identificacion" id="txtIdentificacion" />
+                                <span asp-validation-for="Patrocinador.Identificacion" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-7">
+                                <label asp-for="Patrocinador.TipoPersona" class="form-label">
+                                    Tipo de Persona:
+                                </label>
+                                <select asp-for="Patrocinador.TipoPersona" class="form-control" id="txtTipoPersona">
+                                    <option value="">Seleccione el tipo de persona...</option>
+                                    <option value="Natural">Natural</option>
+                                    <option value="Juridica">Juridica</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md">
+
+                                <label asp-for="Patrocinador.Direccion" class="form-label">
+                                    Direccion:
+                                </label>
+                                <input asp-for="Patrocinador.Direccion" class="form-control"
+                                    name="Patrocinador.Direccion" id="txtDireccion" />
+                                <span asp-validation-for="Patrocinador.Direccion" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Modificar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script type="text/javascript" src="~/js/patrocinador.js"></script>

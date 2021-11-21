@@ -1,0 +1,257 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.CanchasEspacioModel
+@{
+    ViewData["Title"] = "Gestion de Canchas";
+}
+
+    <section id="tabla-principal">
+            <div class="container">
+                <h2>Gestion de Canchas</h2>
+
+                <span class="text-danger">@ViewData["Mensaje"]</span>
+                <div class="boton-crear">
+                    <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal"
+                        data-bs-target="#popup-crear" href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+                </div>
+
+                <div>
+                    <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="display: none;">Id</th>
+                                <th>Deporte</th>
+                                <th>Estado</th>
+                                <th>Medidas</th>
+                                <th>Capacidad</th>
+                                <th>Escenario</th>
+                                <th style="display: none;">EscenarioId</th>
+                                <th class="all acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Se realiza un recorrido en el objeto CanchasEspacio del Model.Escenario para con ayuda
+                                del foreach mostrarlo
+                                en una tabla html *@
+                            @{
+                                var i = 0;
+                                @foreach (var CanchasEspacios in Model.canchasEspacios)
+                                {
+                                    <tr>
+                                        <td style="display: none;" id="id-canchasEspacio">@CanchasEspacios.Id</td>
+                                        <td id="deporte-canchasEspacio">@CanchasEspacios.Deporte</td>
+                                        <td id="estado-canchasEspacio">@CanchasEspacios.Estado</td>
+                                        <td id="medidas-canchasEspacio">@CanchasEspacios.Medidas</td>
+                                        <td id="capacidad-canchasEspacio">@CanchasEspacios.CapacidadEspectadores</td>
+                                        <td>@Model.nombreEscenarios[i]</td>
+                                        <td style="display: none;" id="escenarioId-canchasEspacio">@CanchasEspacios.EscenarioId</td>
+                                        <td class="acciones">
+                                            <a class="btn btn-danger btn-sm table-btn" title="Borrar"
+                                            asp-route-id="@CanchasEspacios.Id" asp-page-handler="Eliminar"><i
+                                                class="fas fa-backspace"></i></a>
+
+                                            <a class="btn btn-primary btn-sm table-btn editar" role="button"
+                                            data-id="@CanchasEspacios.Id" href="#" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </section>
+
+    @* asp-route-id="@canchasEspacio.Id" *@
+    <section>
+        <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana">
+                <div class="modal-content contenido-canchasEspacio">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Canchas</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label asp-for="CanchasEspacio.EscenarioId" class="form-label">
+                                        Escenario:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.EscenarioId" class="form-control">
+                                        <option value="">Seleccione el escenario...</option>
+                                        @{
+
+                                            foreach (var escenario in Model.escenarios)
+                                            {
+                                                <option value=@escenario.Id>@escenario.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Deporte" class="form-label">
+                                        Deporte:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.Deporte" class="form-control">
+                                        <option value="">Seleccione el deporte...</option>
+                                        <option value="Futbol">Fútbol</option>
+                                        <option value="Baloncesto">Baloncesto</option>
+                                        <option value="Patinaje">Patinaje </option>
+                                        <option value="Natacion">Natación</option>
+                                        <option value="Atletismo">Atletismo </option>
+                                    </select>
+                                    <span asp-validation-for="CanchasEspacio.Deporte" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.CapacidadEspectadores" class="form-label">
+                                        Capacidad de Espectadores:
+                                    </label>
+                                    <input asp-for="CanchasEspacio.CapacidadEspectadores" type="number"
+                                        class="form-control" placeholder="Ingrese la capacidad de espectadores"
+                                        name="CanchasEspacio.CapacidadEspectadores" />
+                                    <span asp-validation-for="CanchasEspacio.CapacidadEspectadores" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Estado" class="form-label">
+                                        Estado:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.Deporte" class="form-control">
+                                        <option value="">Seleccione el estado...</option>
+                                        <option value="Perfecto">Perfecto</option>
+                                        <option value="Bueno">Bueno</option>
+                                        <option value="Aceptable">Aceptable</option>
+                                        <option value="Deteriorado">Deteriorado</option>
+                                        <option value="Cerrado">Cerrado</option>
+                                    </select>
+                                    <span asp-validation-for="CanchasEspacio.Estado" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Medidas" class="form-label">
+                                        Medidas:
+                                    </label>
+                                    <input asp-for="CanchasEspacio.Medidas" type="text" class="form-control"
+                                        placeholder="Ingrese las medidas" name="CanchasEspacio.Medidas" />
+                                    <span asp-validation-for="CanchasEspacio.Medidas" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Crear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana">
+                <div class="modal-content contenido-canchasEspacio">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar CanchasEspacio</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                            <input asp-for="CanchasEspacio.Id" type="hidden" id="txtId" />
+                            <div class="row">
+                                <div class="col-md">
+                                    <label asp-for="CanchasEspacio.EscenarioId" class="form-label">
+                                        Escenario:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.EscenarioId" class="form-control" id="txtEscenarioId">
+                                        <option value="">Seleccione el escenario...</option>
+                                        @{
+
+                                            foreach (var escenario in Model.escenarios)
+                                            {
+                                                <option value=@escenario.Id>@escenario.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Deporte" class="form-label">
+                                        Deporte:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.Deporte" class="form-control" id="txtDeporte">
+                                        <option value="">Seleccione el deporte...</option>
+                                        <option value="Futbol">Fútbol</option>
+                                        <option value="Baloncesto">Baloncesto</option>
+                                        <option value="Patinaje">Patinaje </option>
+                                        <option value="Natacion">Natación</option>
+                                        <option value="Atletismo">Atletismo </option>
+                                    </select>
+                                    <span asp-validation-for="CanchasEspacio.Deporte" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.CapacidadEspectadores" class="form-label">
+                                        Capacidad de Espectadores:
+                                    </label>
+                                    <input asp-for="CanchasEspacio.CapacidadEspectadores" type="number"
+                                        class="form-control" name="CanchasEspacio.CapacidadEspectadores" id="txtCapacidad" />
+                                    <span asp-validation-for="CanchasEspacio.CapacidadEspectadores" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Estado" class="form-label">
+                                        Estado:
+                                    </label>
+                                    <select asp-for="CanchasEspacio.Estado" class="form-control" id="txtEstado">
+                                        <option value="">Seleccione el estado...</option>
+                                        <option value="Perfecto">Perfecto</option>
+                                        <option value="Bueno">Bueno</option>
+                                        <option value="Aceptable">Aceptable</option>
+                                        <option value="Deteriorado">Deteriorado</option>
+                                        <option value="Cerrado">Cerrado</option>
+                                    </select>
+                                    <span asp-validation-for="CanchasEspacio.Estado" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="CanchasEspacio.Medidas" class="form-label">
+                                        Medidas:
+                                    </label>
+                                    <input asp-for="CanchasEspacio.Medidas" type="text" class="form-control"
+                                        placeholder="Ingrese las medidas" name="CanchasEspacio.Medidas" id="txtMedidas"/>
+                                    <span asp-validation-for="CanchasEspacio.Medidas" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    @section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
+    <script type="text/javascript" src="~/js/canchas.js"></script>
+

@@ -1,0 +1,138 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.MunicipioModel
+@{
+  ViewData["Title"] = "Gestion de Municipios";
+
+}
+
+<section id="tabla-principal">
+    <div class="container">
+      <h2>Gestion de Municipios</h2>
+
+      <span class="text-danger">@ViewData["Mensaje"]</span>
+      <div class="boton-crear">
+        <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+          href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+      </div>
+
+      <div>
+        <table id="example" class="mdl-data-table table table-striped tabla">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th class="all">Nombre</th>
+              <th class="all acciones">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @* Se realiza un recorrido en el objeto municipio del Model.Municipio para con ayuda del foreach mostrarlo
+              en una tabla html *@
+            @foreach (var municipio in Model.municipios)
+            {
+              <tr>
+                <td id="id-municipio">@municipio.Id</td>
+                <td id="nombre-municipio">@municipio.Nombre</td>
+                <td class="acciones">
+                  <a class="btn btn-danger btn-sm table-btn" title="Borrar" asp-route-id="@municipio.Id"
+                  asp-page-handler="Eliminar"><i class="fas fa-backspace"></i></a>
+
+                  <a class="btn btn-primary btn-sm table-btn editar" role="button" data-id="@municipio.Id" href="#"
+                  title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+  </div>
+</section>
+
+@* asp-route-id="@municipio.Id" *@
+<section>
+  <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ventana">
+      <div class="modal-content contenido-municipio">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Municipio</h5>
+          <div class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa fa-window-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+            <div>
+              <label asp-for="Municipio.Nombre" class="form-label">
+                Nombre:
+              </label>
+              <input asp-for="Municipio.Nombre" type="text" class="form-control"
+                placeholder="Ingrese el nombre del municipio" name="Municipio.Nombre" />
+              <span asp-validation-for="Municipio.Nombre" class="text-danger"> </span>
+            </div>
+            <div id="b-crear">
+              <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ventana">
+      <div class="modal-content contenido-municipio">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar Municipio</h5>
+          <div class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa fa-window-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <div>
+              <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+              <input asp-for="Municipio.Id" type="hidden" id="txtId" />
+              <label asp-for="Municipio.Nombre" class="form-label">
+                Nombre:
+              </label>
+              <input asp-for="Municipio.Nombre" type="text" class="form-control" name="Municipio.Nombre"
+                id="txtNombre" />
+              <span asp-validation-for="Municipio.Nombre" class="text-danger"> </span>
+            </div>
+            <div id="b-crear">
+              <button type="submit" class="btn btn-primary">Modificar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="modal fade" id="popup-mensaje" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ventana">
+      <div class="modal-content contenido-municipio">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Municipio</h5>
+          <div class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa fa-window-close"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">@ViewData["Mensaje"]</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script type="text/javascript" src="~/js/municipio.js"></script>

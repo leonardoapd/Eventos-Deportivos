@@ -1,0 +1,9 @@
+.contenido-equipo {
+    width: 100%;
+    border-radius: 15px;
+  }
+  
+  .ventana-equipo {
+      max-width: 400px !important;
+  }
+  

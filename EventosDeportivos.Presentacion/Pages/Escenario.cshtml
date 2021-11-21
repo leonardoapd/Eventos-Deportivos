@@ -1,0 +1,226 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.EscenarioModel
+@{
+    ViewData["Title"] = "Gestion de Escenarios";
+}
+
+    <section id="tabla-principal">
+            <div class="container">
+                <h2>Gestion de Escenarios</h2>
+
+                <span class="text-danger">@ViewData["Mensaje"]</span>
+                <div class="boton-crear">
+                    <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal"
+                        data-bs-target="#popup-crear" href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+                </div>
+
+                <div>
+                    <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="display: none;">Id</th>
+                                <th>Nombre</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Horario</th>
+                                <th>Torneo</th>
+                                <th style="display: none;">TorneoId</th>
+                                <th class="all acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Se realiza un recorrido en el objeto escenario del Model.Escenario para con ayuda del
+                                foreach mostrarlo
+                                en una tabla html *@
+                            @{
+                                var i = 0;
+                                @foreach (var escenario in Model.escenarios)
+                                {
+                                    <tr>
+                                        <td style="display: none;" id="id-escenario">@escenario.Id</td>
+                                        <td id="nombre-escenario">@escenario.Nombre</td>
+                                        <td id="direccion-escenario">@escenario.Direccion</td>
+                                        <td id="telefono-escenario">@escenario.Telefono</td>
+                                        <td id="horario-escenario">@escenario.Horario</td>
+                                        <td style="display: none;" id="torneoId-escenario">@escenario.TorneoId</td>
+                                        <td>@Model.nombreTorneos[i]</td>
+                                        <td class="acciones">
+                                            <a class="btn btn-danger btn-sm table-btn" title="Borrar"
+                                            asp-route-id="@escenario.Id" asp-page-handler="Eliminar"><i
+                                                class="fas fa-backspace"></i></a>
+
+                                            <a class="btn btn-primary btn-sm table-btn editar" role="button"
+                                            data-id="@escenario.Id" href="#" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </section>
+
+    @* asp-route-id="@escenario.Id" *@
+    <section>
+        <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana">
+                <div class="modal-content contenido-escenario">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Escenario</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.Nombre" class="form-label">
+                                        Nombre:
+                                    </label>
+                                    <input asp-for="Escenario.Nombre" type="text" class="form-control"
+                                        placeholder="Ingrese el nombre" name="Escenario.Nombre" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="Escenario.Direccion" class="form-label">
+                                        Dirección:
+                                    </label>
+                                    <input asp-for="Escenario.Direccion" type="text" class="form-control"
+                                        placeholder="Ingrese la dirección" name="Escenario.Direccion" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Escenario.Telefono" class="form-label">
+                                        Teléfono:
+                                    </label>
+                                    <input asp-for="Escenario.Telefono" type="text" class="form-control"
+                                        placeholder="Ingrese el teléfono" name="Escenario.Telefono" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.Horario" class="form-label">
+                                        Horario:
+                                    </label>
+                                    <input asp-for="Escenario.Horario" type="text" class="form-control"
+                                        placeholder="Ingrese el horario" name="Escenario.Horario" />
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.TorneoId" class="form-label">
+                                        Torneo:
+                                    </label>
+                                    <select asp-for="Escenario.TorneoId" class="form-control">
+                                        <option value="">Seleccione el torneo...</option>
+                                        @{
+                                            foreach (var torneo in Model.torneos)
+                                            {
+                                                <option value=@torneo.Id>@torneo.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Crear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana">
+                <div class="modal-content contenido-escenario">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Escenario</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+
+                            <input asp-for="Escenario.Id" type="hidden" id="txtId" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.Nombre" class="form-label">
+                                        Nombre:
+                                    </label>
+                                    <input asp-for="Escenario.Nombre" type="text" class="form-control"
+                                        id="txtNombre" name="Escenario.Nombre" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="Escenario.Direccion" class="form-label">
+                                        Dirección:
+                                    </label>
+                                    <input asp-for="Escenario.Direccion" type="text" class="form-control"
+                                        id="txtDireccion" name="Escenario.Direccion" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Escenario.Telefono" class="form-label">
+                                        Teléfono:
+                                    </label>
+                                    <input asp-for="Escenario.Telefono" type="text" class="form-control"
+                                        id="txtTelefono" name="Escenario.Telefono" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.Horario" class="form-label">
+                                        Horario:
+                                    </label>
+                                    <input asp-for="Escenario.Horario" type="text" class="form-control"
+                                        id="txtHorario" name="Escenario.Horario" />
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label asp-for="Escenario.TorneoId" class="form-label">
+                                        Torneo:
+                                    </label>
+                                    <select asp-for="Escenario.TorneoId" class="form-control" id="txtTorneoId">
+                                        <option value="">Seleccione el torneo...</option>
+                                        @{
+                                            foreach (var torneo in Model.torneos)
+                                            {
+                                                <option value=@torneo.Id>@torneo.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="~/js/escenario.js"></script>

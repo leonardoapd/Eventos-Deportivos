@@ -1,0 +1,249 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.EntrenadorModel
+@{
+    ViewData["Title"] = "Gestion de Entrenadores";
+}
+
+<section id="tabla-principal">
+        <div class="container">
+            <h2>@ViewData["Title"]</h2>
+
+            <span class="text-danger">@ViewData["Mensaje"]</span>
+            <div class="boton-crear">
+                <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal" data-bs-target="#popup-crear"
+                    href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+            </div>
+
+            <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="display: none;">Id</th>
+                        <th>Documento</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Direccion</th>
+                        <th style="display: none;">Genero</th>
+                        <th>Deporte</th>
+                        <th>Equipo Entrenado</th>
+                        <th style="display: none;">EquipoId</th>
+                        <th class="all acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        @* Se declara una variable para mezclar la informacion *@
+                        var i = 0;
+                        @foreach (var entrenador in Model.entrenadores)
+                        {
+                            <tr>
+                                <td style="display: none" id="id-entrenador">@entrenador.Id</td>
+                                <td id="documento-entrenador">@entrenador.Documento</td>
+                                <td id="nombre-entrenador">@entrenador.Nombre</td>
+                                <td id="apellido-entrenador">@entrenador.Apellido</td>
+                                <td id="direccion-entrenador">@entrenador.Direccion</td>
+                                <td style="display: none" id="genero-entrenador">@entrenador.Genero</td>
+                                <td id="deporte-entrenador">@entrenador.Deporte</td>
+                                <td>@Model.nombreEquipos[i]</td>
+                                <td style="display: none;" id="equipoId-entrenador">@entrenador.EquipoId</td>
+                                <td class="acciones">
+                                    <a class="btn btn-danger btn-sm" asp-route-id="@entrenador.Id"
+                                    asp-page-handler="Eliminar"><i class="fas fa-backspace"></i></a>
+                                    <a class="btn btn-primary btn-sm editar" data-id="@entrenador.Id" role="button"><i
+                                        class="fas fa-edit"></i></a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+    </div>
+</section>
+
+
+<section>
+    <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana">
+            <div class="modal-content contenido-entrenador">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Entrenador</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Documento"> Documento: </label>
+                                <input type="text" asp-for="Entrenador.Documento" placeholder="Ingrese el documento"
+                                    class="form-control" />
+                                <span asp-validation-for="Entrenador.Documento" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Nombre"> Nombre: </label>
+                                <input type="text" asp-for="Entrenador.Nombre" placeholder="Ingrese el nombre"
+                                    class="form-control" />
+                                <span asp-validation-for="Entrenador.Nombre" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Apellido"> Apellido: </label>
+                                <input type="text" asp-for="Entrenador.Apellido" placeholder="Ingrese el apellido"
+                                    class="form-control" />
+                                <span asp-validation-for="Entrenador.Apellido" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Direccion"> Dirección: </label>
+                                <input asp-for="Entrenador.Direccion" placeholder="Ingrese la dirección"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Genero"> Género: </label>
+                                <select asp-for="Entrenador.Genero" class="form-control">
+                                    <option value="">Seleccione el genero...</option>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Deporte"> Deporte: </label>
+                                <select asp-for="Entrenador.Deporte" class="form-control">
+                                    <option value="">Seleccione el deporte...</option>
+                                    <option value="Futbol">Fútbol</option>
+                                    <option value="Baloncesto">Baloncesto</option>
+                                    <option value="Patinaje">Patinaje </option>
+                                    <option value="Natacion">Natación</option>
+                                    <option value="Atletismo">Atletismo </option>
+                                </select>
+                                <span asp-validation-for="Entrenador.Deporte" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.EquipoId"> Equipo Entrenado: </label>
+                                <select asp-for="Entrenador.EquipoId" class="form-control">
+                                    <option value="">Seleccione el equipo...</option>
+                                    @{
+                                        foreach (var equipo in Model.equipos)
+                                        {
+                                            <option value=@equipo.Id>@equipo.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="Entrenador.EquipoId" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ventana">
+            <div class="modal-content contenido-entrenador">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Entrenador</h5>
+                    <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-window-close"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Entrenador.Id" type="hidden" id="txtId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Documento"> Documento: </label>
+                                <input type="text" id="txtDocumento" asp-for="Entrenador.Documento"
+                                    class="form-control" />
+                                <span asp-validation-for="Entrenador.Documento" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Nombre"> Nombre: </label>
+                                <input type="text" id="txtNombre" asp-for="Entrenador.Nombre" class="form-control" />
+                                <span asp-validation-for="Entrenador.Nombre" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Apellido"> Apellido: </label>
+                                <input type="text" id="txtApellido" asp-for="Entrenador.Apellido"
+                                    class="form-control" />
+                                <span asp-validation-for="Entrenador.Apellido" class="text-danger"> </span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Direccion"> Dirección: </label>
+                                <input id="txtDireccion" asp-for="Entrenador.Direccion" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" asp-for="Entrenador.Genero"> Género: </label>
+                                <select id="txtGenero" asp-for="Entrenador.Genero" class="form-control">
+                                    <option value="">Seleccione el genero...</option>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.Deporte"> Deporte: </label>
+                                <select id="txtDeporte" asp-for="Entrenador.Deporte" class="form-control">
+                                    <option value="">Seleccione el deporte...</option>
+                                    <option value="Futbol">Fútbol</option>
+                                    <option value="Baloncesto">Baloncesto</option>
+                                    <option value="Patinaje">Patinaje </option>
+                                    <option value="Natacion">Natación</option>
+                                    <option value="Atletismo">Atletismo </option>
+                                </select>
+                                <span asp-validation-for="Entrenador.Deporte" class="text-danger"> </span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" asp-for="Entrenador.EquipoId"> Equipo Entrenado: </label>
+                                <select id="txtEquipo" asp-for="Entrenador.EquipoId" class="form-control">
+                                    <option value="">Seleccione el equipo...</option>
+                                    @{
+                                        foreach (var equipo in Model.equipos)
+                                        {
+                                            <option value=@equipo.Id>@equipo.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="Entrenador.EquipoId" class="text-danger"> </span>
+                            </div>
+                        </div>
+
+                        <div id="b-crear">
+                            <button type="submit" class="btn btn-primary">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script type="text/javascript" src="~/js/entrenador.js"></script>

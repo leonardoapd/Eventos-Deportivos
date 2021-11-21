@@ -1,0 +1,422 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.DeportistaModel
+@{
+    ViewData["Title"] = "Gestion de Deportista";
+}
+
+    <section id="tabla principal">
+            <div class="container">
+                <h2>@ViewData["Title"]</h2>
+
+                <span class="text-danger">@ViewData["Mensaje"]</span>
+                <div class="boton-crear">
+                    <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal"
+                        data-bs-target="#popup-crear" href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+                </div>
+
+                <div>
+                    <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="display: none;">Id</th>
+                                <th>Documento</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th style="display: none;">Genero</th>
+                                <th style="display: none;">Rh</th>
+                                <th>EPS</th>
+                                <th>Deporte</th>
+                                <th style="display: none;">Fecha Nacimiento</th>
+                                <th style="display: none;">Direccion</th>
+                                <th style="display: none;">NumeroEmergencia</th>
+                                <th> Equipo</th>
+                                <th style="display: none;">EquipoId</th>
+                                <th class="all acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Se realiza un recorrido en el objeto deportista del Model.Deportista para con ayuda del
+                                foreach
+                                mostrarlo
+                                en una tabla html *@
+                            @{
+                                var i = 0;
+                                @foreach (var deportista in Model.deportistas)
+                                {
+                                    <tr>
+                                        <td style="display: none;" id="id-deportista">@deportista.Id</td>
+                                        <td id="documento-deportista">@deportista.Documento</td>
+                                        <td id="nombre-deportista">@deportista.Nombre</td>
+                                        <td id="apellido-deportista">@deportista.Apellido</td>
+                                        <td style="display: none;" id="genero-deportista">@deportista.Genero</td>
+                                        <td style="display: none;" id="rh-deportista">@deportista.Rh</td>
+                                        <td id="eps-deportista">@deportista.EPS</td>
+                                        <td id="deporte-deportista">@deportista.Deporte</td>
+                                        <td style="display: none;" id="fechaNacimiento-deportista">@deportista.FechaNacimiento
+                                        </td>
+                                        <td style="display: none;" id="direccion-deportista">@deportista.Direccion</td>
+                                        <td style="display: none;" id="telefono-deportista">@deportista.NumeroEmergencia</td>
+                                        <td >@Model.nombreEquipos[i]</td>
+                                        <td style="display: none;" id="equipoId-deportista">@deportista.EquipoId</td>
+                                        <td class="acciones">
+                                            <a class="btn btn-danger btn-sm table-btn" title="Borrar"
+                                            asp-route-id="@deportista.Id" asp-page-handler="Eliminar"><i
+                                                class="fas fa-backspace"></i></a>
+
+                                            <a class="btn btn-primary btn-sm table-btn editar" role="button"
+                                            data-id="@deportista.Id" href="#" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </section>
+
+    @* asp-route-id="@deportista.Id" *@
+    <section>
+        <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana-deportista">
+                <div class="modal-content contenido-deportista">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Deportista</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Nombre" class="form-label">
+                                        Nombre:
+                                    </label>
+                                    <input asp-for="Deportista.Nombre" type="text" class="form-control"
+                                        placeholder="Ingrese el nombre" name="Deportista.Nombre" />
+                                    <span asp-validation-for="Deportista.Nombre" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Apellido" class="form-label">
+                                        Apellido:
+                                    </label>
+                                    <input asp-for="Deportista.Apellido" type="text" class="form-control"
+                                        placeholder="Ingrese el apellido" name="Deportista.Apellido" />
+                                    <span asp-validation-for="Deportista.Apellido" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Documento" class="form-label">
+                                        Documento:
+                                    </label>
+                                    <input asp-for="Deportista.Documento" type="text" class="form-control"
+                                        placeholder="Ingrese el documento" name="Deportista.Documento" />
+                                    <span asp-validation-for="Deportista.Documento" class="text-danger"> </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Genero" class="form-label">
+                                        Genero:
+                                    </label>
+                                    <select asp-for="Deportista.Genero" class="form-control">
+                                        <option value="">Seleccione el genero...</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Rh" class="form-label">
+                                        Rh:
+                                    </label>
+                                    <select asp-for="Deportista.Rh" name="Deportista.Rh" class="form-control">
+                                        <!-- Opciones de la lista -->
+                                        <option value="">Seleccione el Rh...</option>
+                                        <option value="A+">A+</option>
+                                        <option value="O+">O+</option>
+                                        <option value="B+">B+</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="O-">O-</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.EPS" class="form-label">
+                                        EPS:
+                                    </label>
+                                    <select asp-for="Deportista.EPS" name="Deportista.EPS" class="form-control">
+                                        <!-- Opciones de la lista -->
+                                        <option value="">Seleccione la EPS...</option>
+                                        <option value="Sanitas">Sanitas</option>
+                                        <option value="Coosalud">Coosalud</option>
+                                        <option value="Nueva EPS">Nueva EPS</option>
+                                        <option value="Salud Total">Salud Total</option>
+                                        <option value="Coomeva">Comeeva</option>
+                                        <option value="Cafesalud">Cafesalud</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <label asp-for="Deportista.EquipoId" class="form-label">
+                                        Equipo:
+                                    </label>
+                                    <select asp-for="Deportista.EquipoId" class="form-control">
+                                        <option value="">Seleccione el equipo...</option>
+                                        @{
+                                            foreach (var equipo in Model.equipos)
+                                            {
+                                                <option value=@equipo.Id>@equipo.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Deportista.Deporte" class="form-label">
+                                        Deporte:
+                                    </label>
+                                    <select asp-for="Deportista.Deporte" class="form-control">
+                                        <option value="">Seleccione el deporte...</option>
+                                        <option value="Futbol">Fútbol</option>
+                                        <option value="Baloncesto">Baloncesto</option>
+                                        <option value="Patinaje">Patinaje </option>
+                                        <option value="Natacion">Natación</option>
+                                        <option value="Atletismo">Atletismo </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.FechaNacimiento" class="form-label">Nacimiento:</label>
+                                    <input asp-for="Deportista.FechaNacimiento" value="2021-01-01"
+                                        class="form-control">
+                                    <span asp-validation-for="Deportista.FechaNacimiento" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Direccion" class="form-label">
+                                        Direccion:
+                                    </label>
+                                    <input asp-for="Deportista.Direccion" type="text" class="form-control"
+                                        placeholder="Ingrese la direccion" name="Deportista.Direccion" />
+                                    <span asp-validation-for="Deportista.Direccion" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.NumeroEmergencia" class="form-label">
+                                        Telefono:
+                                    </label>
+                                    <input asp-for="Deportista.NumeroEmergencia" type="text" class="form-control"
+                                        placeholder="Ingrese el numero de emergencia"
+                                        name="Deportista.NumeroEmergencia" />
+                                    <span asp-validation-for="Deportista.NumeroEmergencia" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Crear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana-deportista">
+                <div class="modal-content contenido-deportista">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Deportista</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                            <input asp-for="Deportista.Id" type="hidden" id="txtId" />
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Nombre" class="form-label">
+                                        Nombre:
+                                    </label>
+                                    <input asp-for="Deportista.Nombre" type="text" class="form-control"
+                                        name="Deportista.Nombre" id="txtNombre" />
+                                    <span asp-validation-for="Deportista.Nombre" class="text-danger"> </span>   
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Apellido" class="form-label">
+                                        Apellido:
+                                    </label>
+                                    <input asp-for="Deportista.Apellido" type="text" class="form-control"
+                                        name="Deportista.Apellido" id="txtApellido" />
+                                    <span asp-validation-for="Deportista.Apellido" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Documento" class="form-label">
+                                        Documento:
+                                    </label>
+                                    <input asp-for="Deportista.Documento" type="text" class="form-control"
+                                        name="Deportista.Documento" id="txtDocumento" />
+                                    <span asp-validation-for="Deportista.Documento" class="text-danger"> </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Genero" class="form-label">
+                                        Genero:
+                                    </label>
+                                    <select asp-for="Deportista.Genero" class="form-control" id="txtGenero">
+                                        <option value="">Seleccione el genero...</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Rh" class="form-label">
+                                        Rh:
+                                    </label>
+                                    <select asp-for="Deportista.Rh" name="Deportista.Rh" class="form-control"
+                                        id="txtRh">
+                                        <!-- Opciones de la lista -->
+                                        <option value="">Seleccione el Rh...></option>
+                                        <option value="A+">A+</option>
+                                        <option value="O+">O+</option>
+                                        <option value="B+">B+</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="O-">O-</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.EPS" class="form-label">
+                                        EPS:
+                                    </label>
+                                    <select asp-for="Deportista.EPS" name="Deportista.EPS" class="form-control"
+                                        id="txtEPS">
+                                        <!-- Opciones de la lista -->
+                                        <option value="">Seleccione la EPS...</option>
+                                        <option value="Sanitas">Sanitas</option>
+                                        <option value="Coosalud">Coosalud</option>
+                                        <option value="Nueva EPS">Nueva EPS</option>
+                                        <option value="Salud Total">Salud Total</option>
+                                        <option value="Coomeva">Comeeva</option>
+                                        <option value="Cafesalud">Cafesalud</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <label asp-for="Deportista.EquipoId" class="form-label">
+                                        Equipo:
+                                    </label>
+                                    <select asp-for="Deportista.EquipoId" class="form-control" id="txtEquipoId">
+                                        <option value="">Seleccione el equipo...</option>
+                                        @{
+                                            
+                                            foreach (var equipo in Model.equipos)
+                                            {
+                                                <option value=@equipo.Id>@equipo.Nombre</option>
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Deportista.Deporte" class="form-label">
+                                        Deporte:
+                                    </label>
+                                    <select asp-for="Deportista.Deporte" class="form-control" id="txtDeporte">
+                                        <option value="">Seleccione el deporte...</option>
+                                        <option value="Futbol">Fútbol</option>
+                                        <option value="Baloncesto">Baloncesto</option>
+                                        <option value="Patinaje">Patinaje </option>
+                                        <option value="Natacion">Natación</option>
+                                        <option value="Atletismo">Atletismo </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.FechaNacimiento" class="form-label">Nacimiento:</label>
+                                    <input asp-for="Deportista.FechaNacimiento"
+                                        id="txtFechaNacimiento" class="form-control">
+                                    <span asp-validation-for="Deportista.FechaNacimiento" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.Direccion" class="form-label">
+                                        Direccion:
+                                    </label>
+                                    <input asp-for="Deportista.Direccion" type="text" class="form-control"
+                                        name="Deportista.Direccion" id="txtDireccion" />
+                                    <span asp-validation-for="Deportista.Direccion" class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Deportista.NumeroEmergencia" class="form-label">
+                                        Telefono:
+                                    </label>
+                                    <input asp-for="Deportista.NumeroEmergencia" type="text" class="form-control"
+                                        id="txtTelefono" name="Deportista.NumeroEmergencia" />
+                                    <span asp-validation-for="Deportista.NumeroEmergencia" class="text-danger"> </span>
+                                </div>
+                            </div>
+
+                            <div id="b-crear">
+                                <button type="submit" class="btn btn-primary">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    @section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script type="text/javascript" src="~/js/deportista.js"></script>

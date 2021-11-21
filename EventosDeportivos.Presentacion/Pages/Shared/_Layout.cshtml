@@ -1,0 +1,205 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Eventos Deportivos </title>
+
+    @* CSS Propio *@
+    <link href="~/styles/navbar.css" rel="stylesheet" />
+
+    <link href="~/styles/main.css" rel="stylesheet" />
+
+    @* CSS de Datatables *@
+    <link href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet" />
+    @* Bootstrap CSS *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
+    @* CSS Iconos FontAwesome *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="~/styles/Municipio/municipio.css" rel="stylesheet" />
+    <link href="~/styles/Torneo/torneo.css" rel="stylesheet" />
+    <link href="~/styles/Entrenador/entrenador.css" rel="stylesheet" />
+    <link href="~/styles/Deportista/deportista.css" rel="stylesheet" />
+    <link href="~/styles/Arbitro/arbitro.css" rel="stylesheet" />
+    <link href="~/styles/Equipo/equipo.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+    <nav class="main-menu">
+        <ul class="menu-lateral">
+            <li>
+                <a asp-page="/Index">
+                    <i class="fa fa-home fa-2x"></i>
+                    <span class="nav-text"> Inicio </span>
+                </a>
+            </li>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li>
+                    <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                        <i class="fa fa-user-cog fa-2x"></i>
+                        <span class="nav-text">@UserManager.GetUserName(User)</span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a asp-page="/Torneo">
+                        <i class="fa fa-trophy fa-2x"></i>
+                        <span class="nav-text"> Torneos </span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a asp-page="/Equipo">
+                        <i class="fa fa-users fa-2x"></i>
+                        <span class="nav-text"> Equipos </span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a asp-page="/Deportista">
+                        <i class="fa fa-running fa-2x"></i>
+                        <span class="nav-text"> Deportistas </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Entrenador">
+                        <i class="fa fa-dumbbell fa-2x"></i>
+                        <span class="nav-text"> Entrenadores </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Escenario">
+                        <i class="fa fa-building fa-2x"></i>
+                        <span class="nav-text"> Escenarios </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/CanchasEspacio">
+                        <i class="fa fa-layer-group fa-2x"></i>
+                        <span class="nav-text"> Canchas </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-school fa-2x"></i>
+                        <span class="nav-text"> Escuelas de Arbitros </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Municipio">
+                        <i class="fa fa-globe-americas fa-2x"></i>
+                        <span class="nav-text"> Municipios </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Arbitro">
+                        <i class="fa fa-ruler fa-2x"></i>
+                        <span class="nav-text"> Arbitros </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Patrocinador">
+                        <i class="fa fa-rocket fa-2x"></i>
+                        <span class="nav-text"> Patrocinadores </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/TorneoEquipo">
+                        <i class="fa fa-clipboard-list fa-2x"></i>
+                        <span class="nav-text"> Inscripciones </span>
+                    </a>
+                </li>
+
+
+            }
+            else
+            {
+                <li>
+                    <a id="login" asp-area="Identity" asp-page="/Account/Login">
+                        <i class="fa fa-sign-in-alt fa-2x"></i>
+                        <span class="nav-text"> Login </span>
+                    </a>
+                </li>
+                <li>
+                    <a id="register" asp-area="Identity" asp-page="/Account/Register">
+                        <i class="fa fa-user-plus fa-2x"></i>
+                        <span class="nav-text"> Register </span>
+                    </a>
+                </li>
+
+            }
+        </ul>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <ul class="logout" id="log-out">
+                <li>
+                    <a href="#" onclick="document.getElementById('logoutForm').submit();">
+                        <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout"
+                        asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" class="nav-text">
+
+
+                            <i class="fa fa-power-off fa-2x"></i>
+                            <span>Logout</span>
+
+
+                        </form>
+                    </a>
+                </li>
+            </ul>
+        }
+
+
+
+    </nav>
+
+
+    @RenderBody()
+
+
+
+    @* JQuery *@
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    @* Javascript de Bootstrap para el Modal *@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+
+    @* Javascript de Datatables *@
+    <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <!-- @* script para desplegar el datatable *@ -->
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                pageLength: 5,
+                lengthMenu: [[5, 7], [5, 7]],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json'
+                },
+                responsive: true
+            });
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

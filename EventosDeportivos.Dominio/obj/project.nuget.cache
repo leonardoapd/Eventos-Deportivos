@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "r9N4Ks+ygdKJaSGt43x5avcJ2g5zzq8qmlHSt+mDUIBpA/7fQzeEtYOwuSxX4ZRQ9HNB9rfFjy05DqrebgOAUg==",
+  "success": true,
+  "projectFilePath": "/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Dominio/EventosDeportivos.Dominio.csproj",
+  "expectedPackageFiles": [
+    "/Users/leonardoperdomo/.nuget/packages/system.componentmodel.annotations/5.0.0/system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

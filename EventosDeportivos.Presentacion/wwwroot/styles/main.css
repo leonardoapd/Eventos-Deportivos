@@ -1,0 +1,178 @@
+#b-crear {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close .fa {
+  color: red;
+  font-size: 1.3em;
+  width: 20px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* Para mostrar el titulo con color y centrado junto a la imagen del index */
+.bienvenida {
+  margin-top: 60px !important;
+  display: block;
+  text-align: center;
+  color: #34094a;
+}
+
+/* Para mostrar el 75% de la tabla */
+.container {
+  width: 75% !important;
+}
+
+@media (max-width: 520px) {
+  .container {
+    margin-left: 80px !important;
+  }
+
+  #imagen-portada {
+    width: 250px;
+    height: 250px;
+    margin-left: 60px;
+    margin-top: auto;
+  }
+
+  .bienvenida h1 {
+    margin-bottom: 20px;
+    margin-left: 55px;
+  }
+
+  .bienvenida {
+    margin-top: 60px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-menu li {
+    height: 30px;
+  }
+
+  .fa-2x {
+    font-size: 1.2em !important;
+  }
+
+  .area {
+    width: 60% !important;
+    margin: 100px auto 30px 90px !important;
+    padding: 1.2rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .area h2 {
+    font-size: 1rem;
+  }
+
+  .area h4 {
+    font-size: 0.8rem;
+  }
+}
+
+/* Para configurar el tamaño del boton crear */
+.botonCrear {
+  margin: 10px 0 10px 0;
+  height: 45px;
+  padding: 10px 0 0 0 !important;
+  width: 100px;
+  /* vertical-align: middle; */
+  /* padding: 1px 5px 1px 1px !important; */
+}
+
+.botonCrear i {
+  width: 16px;
+  height: 16px;
+  margin: -6px 10px 0 0;
+}
+
+/* Para cambiar el color del boton de bootstrap */
+.btn-primary {
+  background-color: #34094a !important;
+  border-color: #34094a !important;
+}
+
+/* Para darle un estilo especifico al icono del boton crear */
+/* .botonCrear .fa {
+    font-size: 1em;
+    width: 30;
+    height: 30px;
+  } */
+
+h2 {
+  margin-top: 20px !important;
+  color: #34094a;
+}
+
+/* Para darle estilos a los iconos de acciones */
+.acciones {
+  width: 60px;
+}
+
+.acciones a i {
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Para cambiar el color de la paginacion de la tabla */
+.page-item.active .page-link {
+  background-color: #34094a !important;
+}
+
+#imagen-portada:hover {
+  transform: scale(1.1);
+}
+
+.ventana {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  margin-bottom: 5px !important;
+}
+
+.text-danger {
+  font-size: 0.75em;
+}
+
+.area {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* align-content: center; */
+  /* align-items: center; */
+  box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+  background: rgb(245, 245, 245);
+  padding: 2.5rem 3.5rem 1.5rem 3.5rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin: 100px auto 30px auto;
+}
+
+.registro {
+  width: 100%;
+}
+
+.area .btn {
+  margin-top: 10px;
+}
+
+.contenedor-principal {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.contenedor-principal h2 div {
+  max-width: 100%;
+}

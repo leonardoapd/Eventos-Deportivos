@@ -1,0 +1,4 @@
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Dominio/obj/Debug/netstandard2.0/EventosDeportivos.Dominio.csprojAssemblyReference.cache
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Dominio/obj/Debug/netstandard2.0/EventosDeportivos.Dominio.AssemblyInfoInputs.cache
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Dominio/obj/Debug/netstandard2.0/EventosDeportivos.Dominio.AssemblyInfo.cs
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Dominio/obj/Debug/netstandard2.0/EventosDeportivos.Dominio.csproj.CoreCompileInputs.cache

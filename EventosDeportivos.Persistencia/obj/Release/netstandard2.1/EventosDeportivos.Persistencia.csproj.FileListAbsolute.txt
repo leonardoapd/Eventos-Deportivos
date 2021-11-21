@@ -1,0 +1,12 @@
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/bin/Release/netstandard2.1/EventosDeportivos.Persistencia.deps.json
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/bin/Release/netstandard2.1/EventosDeportivos.Persistencia.dll
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/bin/Release/netstandard2.1/EventosDeportivos.Persistencia.pdb
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/bin/Release/netstandard2.1/EventosDeportivos.Dominio.dll
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/bin/Release/netstandard2.1/EventosDeportivos.Dominio.pdb
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.csprojAssemblyReference.cache
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.AssemblyInfoInputs.cache
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.AssemblyInfo.cs
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.csproj.CoreCompileInputs.cache
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.csproj.CopyComplete
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.dll
+/Users/leonardoperdomo/Documents/MISION TIC 2022/DS-C3/EventosDeportivos/EventosDeportivos/EventosDeportivos.Persistencia/obj/Release/netstandard2.1/EventosDeportivos.Persistencia.pdb

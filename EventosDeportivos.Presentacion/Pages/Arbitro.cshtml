@@ -1,0 +1,358 @@
+﻿@page
+@model EventosDeportivos.Presentacion.Pages.ArbitroModel
+@{
+    ViewData["Title"] = "Gestion de Arbitros";
+}
+
+    <section id="tabla-principal">
+    
+            <div class="container">
+                <h2>Gestion de Arbitros</h2>
+
+                <span class="text-danger">@ViewData["Mensaje"]</span>
+                <div class="boton-crear">
+                    <a class="btn btn-primary botonCrear" role="button" data-bs-toggle="modal"
+                        data-bs-target="#popup-crear" href="#"><i class="fa fa-pen-alt"></i>Crear</a>
+                </div>
+
+                <div>
+                    <table id="example" class="mdl-data-table table table-striped tabla" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="display: none;">Id</th>
+                                <th>Documento</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th style="display: none;">Genero</th>
+                                <th style="display: none;">Telefono</th>
+                                <th style="display: none;">Correo</th>
+                                <th style="display: none;">Deporte</th>
+                                <th>Torneo</th>
+                                <th style="display: none;">TorneoId</th>
+                                <th>Escuela</th>
+                                <th style="display: none;">EscuelaId</th>
+                                <th class="all acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Se realiza un recorrido en el objeto arbitro del Model.arbitro para con ayuda del foreach
+                                mostrarlo
+                                en una tabla html *@
+                            @{
+                                var i = 0;
+                                @foreach (var arbitro in Model.arbitros)
+                                {
+                                    <tr>
+                                        <td style="display: none" id="id-arbitro">@arbitro.Id</td>
+                                        <td id="documento-arbitro">@arbitro.Documento</td>
+                                        <td id="nombre-arbitro">@arbitro.Nombre</td>
+                                        <td id="apellido-arbitro">@arbitro.Apellido</td>
+                                        <td style="display: none" id="genero-arbitro">@arbitro.Genero</td>
+                                        <td style="display: none" id="telefono-arbitro">@arbitro.Telefono</td>
+                                        <td style="display: none" id="correo-arbitro">@arbitro.Correo</td>
+                                        <td style="display: none" id="deporte-arbitro">@arbitro.Deporte</td>
+                                        <td>@Model.nombreTorneos[i]</td>
+                                        <td style="display: none;"  id="torneoId-arbitro">@arbitro.TorneoId</td>
+                                        <td>@Model.nombreEscuelas[i]</td>
+                                        <td style="display: none;" id="escuelaId-arbitro">@arbitro.EscuelaArbitroId</td>
+                                        <td class="acciones">
+                                            <a class="btn btn-danger btn-sm table-btn" title="Borrar" asp-route-id="@arbitro.Id"
+                                            asp-page-handler="Eliminar"><i class="fas fa-backspace"></i></a>
+
+                                            <a class="btn btn-primary btn-sm table-btn editar" role="button"
+                                            data-id="@arbitro.Id" href="#" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </section>
+
+    @* asp-route-id="@arbitro.Id" *@
+    <section>
+        <div class="modal fade" id="popup-crear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana-arbitro">
+                <div class="modal-content contenido-arbitro">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Arbitro</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Nombre" class="form-label">
+                                            Nombre:
+                                        </label>
+                                        <input asp-for="Arbitro.Nombre" type="text" class="form-control"
+                                            placeholder="Ingrese el nombre" name="Arbitro.Nombre" />
+                                        <span asp-validation-for="Arbitro.Nombre" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Apellido" class="form-label">
+                                            Apellido:
+                                        </label>
+                                        <input asp-for="Arbitro.Apellido" type="text" class="form-control"
+                                            placeholder="Ingrese el apellido" name="Arbitro.Apellido" />
+                                        <span asp-validation-for="Arbitro.Apellido" class="text-danger"> </span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Documento" class="form-label">
+                                            Documento:
+                                        </label>
+                                        <input asp-for="Arbitro.Documento" type="text" class="form-control"
+                                            placeholder="Ingrese el documento" name="Arbitro.Documento" />
+                                        <span asp-validation-for="Arbitro.Documento" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Genero" class="form-label">
+                                            Genero:
+                                        </label>
+                                        <select asp-for="Arbitro.Genero" class="form-control">
+                                            <option value="">Seleccione el genero...</option>
+                                            <option value="Femenino">Femenino</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label asp-for="Arbitro.Telefono" class="form-label">
+                                            Telefono:
+                                        </label>
+                                        <input asp-for="Arbitro.Telefono" type="number" class="form-control"
+                                            placeholder="Ingrese el telefono" name="Arbitro.Telefono" />
+                                        <span asp-validation-for="Arbitro.Telefono" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Correo" class="form-label">
+                                            Correo:
+                                        </label>
+                                        <input asp-for="Arbitro.Correo" type="mail" class="form-control"
+                                            placeholder="Ingrese el correo" name="Arbitro.Correo" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.Deporte" class="form-label">
+                                            Deporte:
+                                        </label>
+                                        <select asp-for="Arbitro.Deporte" class="form-control">
+                                            <option value="">Seleccione el deporte...</option>
+                                            <option value="Futbol">Fútbol</option>
+                                            <option value="Baloncesto">Baloncesto</option>
+                                            <option value="Patinaje">Patinaje </option>
+                                            <option value="Natacion">Natación</option>
+                                            <option value="Atletismo">Atletismo </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.TorneoId" class="form-label">
+                                            Torneo:
+                                        </label>
+                                        <select asp-for="Arbitro.TorneoId" name="Arbitro.TorneoId" class="form-control">
+                                            @* Se realiza despliegue de la listas de patrocinadores en la base de datos
+                                            *@
+                                            <option value="">Seleccione el torneo...</option>
+                                            @{
+                                                foreach (var torneo in Model.torneos)
+                                                {
+                                                    <option value=@torneo.Id>@torneo.Nombre</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Arbitro.TorneoId" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.EscuelaArbitroId" class="form-label">
+                                            Deporte:
+                                        </label>
+                                        <select asp-for="Arbitro.EscuelaArbitroId" name="Arbitro.EscuelaArbitroId"
+                                            class="form-control">
+                                            @* Se realiza despliegue de la listas de patrocinadores en la base de datos
+                                            *@
+                                            <option value="">Seleccione la escuela...</option>
+                                            @{
+                                                foreach (var escuela in Model.escuelas)
+                                                {
+                                                    <option value=@escuela.Id>@escuela.Nombre</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Arbitro.EscuelaArbitroId" class="text-danger"> </span>
+                                    </div>
+                                </div>
+
+
+                                <div id="b-crear">
+                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal fade" id="popup-editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ventana-arbitro">
+                <div class="modal-content contenido-arbitro">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Arbitro</h5>
+                        <div class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-window-close"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                                <input asp-for="Arbitro.Id" type="hidden" id="txtId" />
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Nombre" class="form-label">
+                                            Nombre:
+                                        </label>
+                                        <input asp-for="Arbitro.Nombre" type="text" class="form-control"
+                                             name="Arbitro.Nombre" id="txtNombre" />
+                                        <span asp-validation-for="Arbitro.Nombre" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Apellido" class="form-label">
+                                            Apellido:
+                                        </label>
+                                        <input asp-for="Arbitro.Apellido" type="text" class="form-control"
+                                             name="Arbitro.Apellido" id="txtApellido" />
+                                        <span asp-validation-for="Arbitro.Apellido" class="text-danger"> </span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Documento" class="form-label">
+                                            Documento:
+                                        </label>
+                                        <input asp-for="Arbitro.Documento" type="text" class="form-control"
+                                             name="Arbitro.Documento" id="txtDocumento" />
+                                        <span asp-validation-for="Arbitro.Documento" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Genero" class="form-label">
+                                            Genero:
+                                        </label>
+                                        <select asp-for="Arbitro.Genero" class="form-control" id="txtGenero">
+                                            <option value="">Seleccione el genero...</option>
+                                            <option value="Femenino">Femenino</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <label asp-for="Arbitro.Telefono" class="form-label">
+                                            Telefono:
+                                        </label>
+                                        <input asp-for="Arbitro.Telefono" type="number" class="form-control"
+                                            name="Arbitro.Telefono" id="txtTelefono" />
+                                        <span asp-validation-for="Arbitro.Telefono" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Arbitro.Correo" class="form-label">
+                                            Correo:
+                                        </label>
+                                        <input asp-for="Arbitro.Correo" type="mail" class="form-control"
+                                             name="Arbitro.Correo" id="txtCorreo"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.Deporte" class="form-label">
+                                            Deporte:
+                                        </label>
+                                        <select asp-for="Arbitro.Deporte" class="form-control" id="txtDeporte">
+                                            <option value="">Seleccione el deporte...</option>
+                                            <option value="Futbol">Fútbol</option>
+                                            <option value="Baloncesto">Baloncesto</option>
+                                            <option value="Patinaje">Patinaje </option>
+                                            <option value="Natacion">Natación</option>
+                                            <option value="Atletismo">Atletismo </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.TorneoId" class="form-label">
+                                            Torneo:
+                                        </label>
+                                        <select asp-for="Arbitro.TorneoId" name="Arbitro.TorneoId" id="txtTorneoId"
+                                            class="form-control">
+                                            @* Se realiza despliegue de la listas de patrocinadores en la base de datos
+                                            *@
+                                            <option value="">Seleccione el torneo...</option>
+                                            @{
+                                                foreach (var torneo in Model.torneos)
+                                                {
+                                                    <option value=@torneo.Id>@torneo.Nombre</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Arbitro.TorneoId" class="text-danger"> </span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Arbitro.EscuelaArbitroId" class="form-label">
+                                            Deporte:
+                                        </label>
+                                        <select asp-for="Arbitro.EscuelaArbitroId" name="Arbitro.EscuelaArbitroId" id="txtEscuelaId"
+                                            class="form-control">
+                                            @* Se realiza despliegue de la listas de patrocinadores en la base de datos
+                                            *@
+                                            <option value="">Seleccione la escuela...</option>
+                                            @{
+                                                foreach (var escuela in Model.escuelas)
+                                                {
+                                                    <option value=@escuela.Id>@escuela.Nombre</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Arbitro.EscuelaArbitroId" class="text-danger"> </span>
+                                    </div>
+                                </div>
+
+                                <div id="b-crear">
+                                    <button type="submit" class="btn btn-primary">Modificar</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); 
+        }
+    }
+    <script type="text/javascript" src="~/js/arbitro.js"></script>

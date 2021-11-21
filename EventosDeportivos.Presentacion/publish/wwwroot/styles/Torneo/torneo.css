@@ -1,0 +1,17 @@
+.fechas {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 38px !important; 
+  margin: 10px 0 10px 0 !important;
+}
+
+.fechas label {
+  margin-right: 5px;
+}
+
+.contenido-torneo {
+  width: 105%;
+  border-radius: 15px;
+}
+
